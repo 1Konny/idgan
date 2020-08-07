@@ -1,0 +1,50 @@
+data:
+  type: image
+  train_dir: data/Chairs_64
+  test_dir: data/Chairs_64
+  img_size: 64
+dvae:
+  name: BetaVAE_H
+  runname: dvae_chairs
+  ckptname: last 
+  c_dim: 20
+  nc: 3
+generator:
+  name: resnet3
+  kwargs:
+    nfilter: 64
+    nfilter_max: 512
+discriminator:
+  name: resnet3
+  kwargs:
+    nfilter: 64
+    nfilter_max: 512
+z_dist:
+  type: gauss
+  dim: 256
+training:
+  reg_param: 1000.
+  w_info: 0.0001
+  batch_size: 64
+  nworkers: 16
+  take_model_average: true
+  model_average_beta: 0.999
+  model_average_reinit: false
+  monitoring: tensorboard
+  sample_every: 1000
+  inception_every: -1 
+  save_every: 900
+  backup_every: 100000
+  max_iter: 300000
+  restart_every: -1
+  optimizer: rmsprop
+  lr_g: 0.0001
+  lr_d: 0.0001
+  lr_anneal: 1.
+  lr_anneal_every: 150000
+  d_steps: 1
+  equalize_lr: false
+test:
+  nsamples_fid: 50000
+  batch_size: 128
+  use_model_average: true
